@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Italian Restaurant - ระบบคำนวณราคา</title>
+
+    <style>
+      body {
+        font-family: "Prompt", sans-serif;
+        background: #f2f2f2;
+        margin: 40px;
+      }
+      .container {
+        width: 420px;
+        margin: auto;
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+      }
+      select,
+      input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 15px;
+      }
+      button {
+        width: 100%;
+        padding: 12px;
+        background: #ff5733;
+        color: white;
+        font-size: 16px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        margin-top: 15px;
+      }
+      .result {
+        background: #e8ffe8;
+        padding: 15px;
+        margin-top: 20px;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>🇮🇹 ร้านสไตล์อิตาลี - ระบบคำนวณราคา</h2>
+
+      <label><strong>🍝 เมนูอาหารหลัก</strong></label>
+      <select id="food">
+        <option value="120">🍕 พิซซ่ามาการิต้า - 120 บาท</option>
+        <option value="150">🍕 พิซซ่าเปปเปอโรนี - 150 บาท</option>
+        <option value="180">🍝 สปาเก็ตตี้โบโลเนส - 180 บาท</option>
+        <option value="160">🍝 สปาเก็ตตี้คาโบนารา - 160 บาท</option>
+        <option value="140">🥗 ซีซาร์สลัด - 140 บาท</option>
+        <option value="200">🥩 สเต็กเนื้อริบอาย - 200 บาท</option>
+        <option value="180">🥩 สเต็กหมูพริกไทยดำ - 180 บาท</option>
+        <option value="100">🍞 ขนมปังกระเทียม - 100 บาท</option>
+        <option value="220">🧀 ลาซานญ่า - 220 บาท</option>
+        <option value="160">🍛 ริซอตโต้เห็ดทรัฟเฟิล - 160 บาท</option>
+      </select>
+
+      <br /><br />
+
+      <label><strong>🥤 เมนูเครื่องดื่ม</strong></label>
+      <select id="drink">
+        <option value="30">🥤 น้ำอัดลม - 30 บาท</option>
+        <option value="25">🧃 น้ำผลไม้รวม - 25 บาท</option>
+        <option value="40">☕ กาแฟเย็น - 40 บาท</option>
+        <option value="20">💧 น้ำเปล่า - 20 บาท</option>
+      </select>
+
+      <br /><br />
+
+      <label>จำนวนอาหาร (จาน)</label>
+      <input type="number" id="foodQty" min="1" value="1" />
+
+      <label>จำนวนเครื่องดื่ม (แก้ว)</label>
+      <input type="number" id="drinkQty" min="1" value="1" />
+
+      <button onclick="calc()">คำนวณราคา</button>
+
+      <div class="result" id="output" style="display: none"></div>
+    </div>
+
+    <script>
+      function calc() {
+        let foodPrice = parseFloat(document.getElementById("food").value);
+        let drinkPrice = parseFloat(document.getElementById("drink").value);
+
+        let foodQty = parseInt(document.getElementById("foodQty").value);
+        let drinkQty = parseInt(document.getElementById("drinkQty").value);
+
+        if (isNaN(foodQty) || isNaN(drinkQty)) {
+          alert("กรุณากรอกจำนวนสินค้าให้ครบ");
+          return;
+        }
+
+        // คำนวณราคารวม
+        let totalFood = foodPrice * foodQty;
+        let totalDrink = drinkPrice * drinkQty;
+        let total = totalFood + totalDrink;
+
+        // ส่วนลด
+        let discount = total > 500 ? total * 0.1 : 0;
+        let net = total - discount;
+
+        // แสดงผลลัพธ์
+        let output = document.getElementById("output");
+        output.style.display = "block";
+        output.innerHTML = `
+        <strong>📌 ผลลัพธ์การคำนวณ</strong><br><br>
+        🍝 อาหารรวม: ${totalFood.toFixed(2)} บาท<br>
+        🥤 เครื่องดื่มรวม: ${totalDrink.toFixed(2)} บาท<br><br>
+        💵 <strong>ราคารวมทั้งหมด: ${total.toFixed(2)} บาท</strong><br>
+        🔖 ส่วนลด: ${discount.toFixed(2)} บาท<br>
+        ✅ <strong>ราคาสุทธิที่ต้องจ่าย: ${net.toFixed(2)} บาท</strong>
+    `;
+      }
+    </script>
+  </body>
+</html>
